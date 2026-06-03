@@ -1,0 +1,21 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Guest Access</title>
+</head>
+<body>
+    <h2>Request Internet Access</h2>
+    <form method="POST" action="https://func-wifi.azurewebsites.net/api/request">
+        <input type="email" name="email" placeholder="Enter your email" required />
+        <input type="hidden" name="mac" id="mac" />
+        <button type="submit">Request Access</button>
+    </form>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        document.getElementById("mac").value =
+            urlParams.get("id") || urlParams.get("mac");
+    </script>
+</body>
+</html>
