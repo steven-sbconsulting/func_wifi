@@ -9,18 +9,27 @@ module.exports = async function (context, req) {
     if (!email || !mac) {
         context.res = {
             status: 400,
-            body: "Missing email or MAC"
+            body: `Missing data: email=${email}, mac=${mac}`
         };
         return;
     }
 
-    await axios.post(process.env.FLOW_URL, {
-        email: email,
-        mac: mac
-    });
+    try {
+        await axios.post(process.env.FLOW_URL, {
+            email,
+            mac
+        });
 
-    context.res = {
-        status: 200,
-        body: "Request submitted. Waiting for approval..."
-    };
+        context.res = {
+            status: 200,
+            body: "Request submitted ✅"
+        };
+    } catch (error) {
+        context.log("Flow error:", error.message);
+
+        context.res = {
+            status: 500,
+            body: "Failed to contact approval flow"
+        };
+    }
 };
