@@ -11,24 +11,8 @@ module.exports = async function (context, req) {
         return;
     }
 
-    const client = axios.create({
-        baseURL: process.env.UNIFI_URL,
-        withCredentials: true
-    });
-
-    await client.post("/api/login", {
-        username: process.env.UNIFI_USER,
-        password: process.env.UNIFI_PASS
-    });
-
-    await client.post("/proxy/network/api/s/default/cmd/stamgr", {
-        cmd: "authorize-guest",
-        mac: mac,
-        minutes: 480
-    });
-
     context.res = {
         status: 200,
-        body: "User approved ✅"
+        body: "Approve endpoint reached ✅ MAC: " + mac
     };
 };
